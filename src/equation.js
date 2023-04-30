@@ -7,6 +7,7 @@ export const Equation = class
     this.secondNumber = 0;
     this.operators = ["+", "-"];
     this.operator;
+    this.rightSideOperator = "+";
   }
   
 
@@ -26,9 +27,17 @@ export const Equation = class
   }
 
   _generateRightSide() {
-    // get a random x
-    // calculate the differece from this.result
+    // num3 * x [+/-] num4
+  
+    this.thirdNumber = this._randomIntFromInterval(-20, 20);
+    this.fourthNumber = this.result - (this.thirdNumber * this.x);
     
+    if (this.fourthNumber > 0) {
+      this.rightSideOperator = "-";
+    } 
+    
+    console.log("right side: " + this.thirdNumber.toString() + "x " + this.rightSideOperator + " " + this.fourthNumber.toString());
+    console.log("x", this.x);
   }
 
 
@@ -55,6 +64,6 @@ export const Equation = class
   }
 
   get asString() {
-    return this.firstNumber.toString() + "x " + this.operator + " " + this.secondNumber.toString(); 
+    return this.firstNumber.toString() + "x " + this.operator + " " + this.secondNumber.toString() + " = " + this.thirdNumber.toString() + "x " + this.rightSideOperator + " " + this.fourthNumber; 
   }
 }
