@@ -1,15 +1,9 @@
+import { Side } from './side.js';
+
 export const Equation = class
 {
-  constructor() {
-    this.x = 0;
-    this.result = 0;
-    this.firstNumber = 0;
-    this.secondNumber = 0;
-    this.operators = ["+", "-"];
-    this.operator;
-    this.rightSideOperator = "+";
-  }
-  
+  leftSide;
+  rightSide;
 
   generate() {
   
@@ -19,25 +13,27 @@ export const Equation = class
   }
 
   _generateLeftSide() {
-    this.firstNumber = this._randomIntFromInterval(-20, 20);
-    this.operator = this._randOperator;
-    this.secondNumber =  this._randomIntFromInterval(-100, 100);
-    this.x = this._randomIntFromInterval(2, 15);
-    this.result = this._eval();
+    this.leftSide = new Side();
+    
+    this.leftSide.firstNumber = this._randomIntFromInterval(-20, 20);
+    this.leftSide.operator = this._randOperator;
+    this.leftSide.secondNumber =  this._randomIntFromInterval(-100, 100);
+    this.leftSide.x = this._randomIntFromInterval(2, 15);
+    this.leftSide.result = this._eval();
   }
 
   _generateRightSide() {
-    // num3 * x [+/-] num4
-  
-    this.thirdNumber = this._randomIntFromInterval(-20, 20);
-    this.fourthNumber = this.result - (this.thirdNumber * this.x);
+    this.rightSide = new Side();
+
+    this.rightSide.firstNumber = this._randomIntFromInterval(-20, 20);
+    this.rightSide.secondNumber = this.leftSide.result - (this.rightSide.firstNumber * this.leftSide.x);
     
-    if (this.fourthNumber > 0) {
-      this.rightSideOperator = "-";
+    if (this.rightSide.secondNumber> 0) {
+      this.rightSide.operator = "-";
     } 
     
-    console.log("right side: " + this.thirdNumber.toString() + "x " + this.rightSideOperator + " " + this.fourthNumber.toString());
-    console.log("x", this.x);
+    console.log("right side: " + this.rightSide.asString);
+    console.log("x", this.leftSide.x);
   }
 
 
@@ -54,8 +50,8 @@ export const Equation = class
   }
 
   _eval() {
-    const product = this.firstNumber * this.x;
-    const equation = product.toString() + " " + this.operator + " " + this.secondNumber.toString();
+    const product = this.leftSide.firstNumber * this.leftSide.x;
+    const equation = product.toString() + " " + this.leftSide.operator + " " + this.leftSide.secondNumber.toString();
     try {
       return eval(equation);
     } catch(error) {
