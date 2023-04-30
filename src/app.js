@@ -7,10 +7,8 @@ const $ = {
 
 var equation = new Equation();
 
-
 $.button.addEventListener('click', e => {
-  equation.generate();
-  console.log(equation.asString);
+  equation.createSides();
   $.display.innerHTML = equation.asString;
 });
 
